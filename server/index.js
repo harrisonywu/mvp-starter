@@ -26,8 +26,15 @@ app.get('/previousSongs', function (req, res) {
 });
 
 app.post('/saveSong', (req, res) => {
-  // songs.saveOne()
-  // res.end();
+  console.log('BODY: ', req.body)
+  songs.saveOne(req.body, (err, success) => {
+    if (err) {
+      console.log(err)
+    } else {
+      res.send('successoooo')
+    }
+  })
+  res.end();
 })
 
 app.listen(3000, function() {

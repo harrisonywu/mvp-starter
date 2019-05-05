@@ -29,4 +29,19 @@ var selectAll = function(callback) {
   });
 };
 
+var saveOne = function(data, callback) {
+  var newEntry = new Song({ 
+    songName: data.name,
+    artistName: data.artists[0].name,
+    albumName: data.album.name
+  })
+  newEntry.save((err) => {
+    if(err) {
+      console.log('error saving data: ', err)
+    }
+  })
+  
+}
+
 module.exports.selectAll = selectAll;
+module.exports.saveOne = saveOne;
