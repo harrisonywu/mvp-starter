@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/test');
+mongoose.connect('mongodb://localhost/Songs');
 
 var db = mongoose.connection;
 
@@ -11,19 +11,20 @@ db.once('open', function() {
   console.log('mongoose connected successfully');
 });
 
-var itemSchema = mongoose.Schema({
-  quantity: Number,
-  description: String
+var songSchema = mongoose.Schema({
+  songName: String,
+  artistName: String,
+  albumName: String,
 });
 
-var Item = mongoose.model('Item', itemSchema);
+var Song = mongoose.model('Song', songSchema);
 
 var selectAll = function(callback) {
-  Item.find({}, function(err, items) {
+  Song.find({}, function(err, songs) {
     if(err) {
       callback(err, null);
     } else {
-      callback(null, items);
+      callback(null, songs);
     }
   });
 };
