@@ -9,8 +9,6 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
-      test: 'test',
-      songData: 'yo',
       currentURI: '',
     }
 
@@ -28,7 +26,9 @@ class App extends React.Component {
 
     axios.get('/previousSongs')
       .then((allSongs) => {
-        console.log("previous songs: ", allSongs)
+        this.setState({
+          allSongs: allSongs.data,
+        })
       })
   }
 
@@ -47,7 +47,7 @@ class App extends React.Component {
       headers: { 
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer BQAXjNUm67uTLZcB_05rEPevUT10Nins5MgQBqH81jt6FZNiU8n7Oa837S-yMvvEQiffJhGCupJIcrE68h5OxkzU3DAqznzTfO957NR1lf4OhtUsiso4nnwM68PrtsS5OrchmJBqDfzEc9ji'
+        'Authorization': 'Bearer BQDm5qmJbcgJWWurUtZLNQd5jnfIJt_d7tTDBewuuPoLZ_RJ8vuoUR_wNpZK_sUMBZjPhoxXJVpbxFzCaW3U9Ra01D6Su-6RXTwPxAHx_Dhy57uMDgx6ayNRu-Z-TuJ5tvnJtd-rGG0OKwXA'
       }
     })
     
@@ -59,9 +59,6 @@ class App extends React.Component {
        
       axios.post('/saveSong', songInfo.data)
         .then(() => console.log('song saved: ', songInfo.data))
-        // we want to send this to the server, where it will then
-        // therefore SEND GET REQUEST TO SERVER WITH THE DATA
-        // send to the database so we can save the data
 
       })
       // on error, display that that URI does not exist, try another one.
@@ -73,7 +70,7 @@ class App extends React.Component {
   render () {
     return (
     <div>
-      <PreviouslyPlayed />
+      <PreviouslyPlayed previousSongs={this.state.allSongs}/>
       <SongSubmit changeURI={this.changeURI} submitSong={this.functionForGrabbingSongs}/>
       <CurrentSong currentSongInfo={this.state.currentSong}/>
     </div>)

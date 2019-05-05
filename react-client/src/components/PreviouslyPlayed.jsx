@@ -1,17 +1,30 @@
 import React from 'react';
+import SingleSongInfo from './SingleSongInfo.jsx';
 
 // This will grab the previously played songs from my mongo library
 // Then it will display it in list form
 
+//FOR EACH PASSED DOWN STATE, RENDER THE SONG
+
 function PreviouslyPlayed(props) {
-  return (
-    <ol>
-      <li>1</li>
-      <li>2</li>
-      <li>3</li>
-      <li>4</li>
-    </ol>
-  )
+  if (typeof props.previousSongs != "undefined") {
+    return (
+      <div>
+        <h1>PREVIOUSLY PLAYED</h1>
+        {props.previousSongs.map((song, index) => {
+          return <SingleSongInfo song={song} key={index}/>
+        })}
+      </div>
+  )} else {
+    return (
+      <div>
+        <h1>PREVIOUSLY PLAYED</h1>
+        No songs previously played.
+      </div>
+
+    )
+  }
+
 }
 
 export default PreviouslyPlayed;
