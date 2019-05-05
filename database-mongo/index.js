@@ -15,6 +15,7 @@ var songSchema = mongoose.Schema({
   songName: String,
   artistName: String,
   albumName: String,
+  albumImg: String,
 });
 
 var Song = mongoose.model('Song', songSchema);
@@ -33,7 +34,8 @@ var saveOne = function(data, callback) {
   var newEntry = new Song({ 
     songName: data.name,
     artistName: data.artists[0].name,
-    albumName: data.album.name
+    albumName: data.album.name,
+    albumImg: data.album.images[2].url,
   })
   newEntry.save((err) => {
     if(err) {

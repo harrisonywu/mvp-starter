@@ -5,6 +5,8 @@ import axios from 'axios';
 import PreviouslyPlayed from './components/PreviouslyPlayed.jsx';
 import SongSubmit from './components/SongSubmit.jsx';
 import CurrentSong from './components/CurrentSong.jsx';
+import access_token from './config/spotify_access_token.js';
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -43,14 +45,14 @@ class App extends React.Component {
 
     //the URI passed in will be what sends
     let songInstance = axios.create({
-      // baseurl: 'https://api.spotify.com/v1/tracks',
       headers: { 
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer BQDm5qmJbcgJWWurUtZLNQd5jnfIJt_d7tTDBewuuPoLZ_RJ8vuoUR_wNpZK_sUMBZjPhoxXJVpbxFzCaW3U9Ra01D6Su-6RXTwPxAHx_Dhy57uMDgx6ayNRu-Z-TuJ5tvnJtd-rGG0OKwXA'
+        'Authorization': `Bearer ${access_token}`
       }
     })
     
+    // Grab current song data
     songInstance.get(`https://api.spotify.com/v1/tracks/${this.state.currentURI}`)
       .then((songInfo) => {
         this.setState({
@@ -64,14 +66,21 @@ class App extends React.Component {
       // on error, display that that URI does not exist, try another one.
       .catch((error) => console.log(error))
 
+    // Grab current song audio analysis
+    songInstance.get(`https://api.spotify.com/v1/audio-analysis/${this.state.currentURI}`)
+      .then((audioAnalysis) => {
+        this.setState({
+          audioAnalysis: audioAnalysis.data,
+        })
+      })
   }
 
 
   render () {
     return (
     <div>
-      <PreviouslyPlayed previousSongs={this.state.allSongs}/>
       <SongSubmit changeURI={this.changeURI} submitSong={this.functionForGrabbingSongs}/>
+      <PreviouslyPlayed previousSongs={this.state.allSongs}/>
       <CurrentSong currentSongInfo={this.state.currentSong}/>
     </div>)
   }
