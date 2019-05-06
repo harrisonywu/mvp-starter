@@ -6,4 +6,4 @@ node_modules
 react-client/src/config
 
 #bundle
-react-client/dist/bundle
+react-client/dist/bundle.js
